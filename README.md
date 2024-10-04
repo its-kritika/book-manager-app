@@ -23,4 +23,4 @@ Book Manager API is a RESTful API built with Node.js, Express and MongoDB. It al
   - Add `JWT_SECRET_KEY` for authorization.
 - Start the server `npm start`
 
-# KEEP TRACK OF YOUR BOOKS WITH THIS APP!!
+## KEEP TRACK OF YOUR BOOKS WITH THIS APP!!

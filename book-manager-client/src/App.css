@@ -1,0 +1,87 @@
+body{
+  margin : 0;
+  background-color: whitesmoke;
+  box-sizing: border-box;
+}
+.container{
+  width: 50%;
+  margin: 0 auto;
+  padding: 5%;
+  text-align: center;
+}
+.sign-form{
+  width: 65%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin: 0 auto;
+}
+.sign-form form{
+  padding: 10%;
+}
+.extras{
+  width: 65%;
+  padding: 5%;
+  margin: 0 auto;
+}
+.box{
+  display: flex;
+  align-items: center;
+}
+.back-button{
+  width: 100%;
+  border-bottom: 1px solid rgb(20, 20, 20);
+  background-color: rgb(229, 229, 229);
+  text-indent: 7px;
+  padding: 7px 0;
+  text-align: left;
+}
+.back-button span{
+  cursor: pointer;
+}
+.back-button span:hover{
+  text-decoration: underline;
+}
+.sign-form label{
+  flex-grow: 1;
+}
+.input-form{
+  height: 30px;
+  margin: 7px;
+  width: 72%;
+}
+.sign-container{
+  width: 45%;
+  margin: 0 auto;
+  margin-top: 8%;
+}
+.sign-button{
+  height: 35px;
+  width: 100%;
+  cursor: pointer;
+}
+.p-sign{
+  text-decoration: underline;
+  color: #0000EE;
+  margin-top: 0;
+  cursor: pointer;
+}
+.grid{
+  display: flex;
+  flex-wrap: wrap;
+  width: 70%;
+  margin: 5% auto;
+  justify-content: space-between;
+  gap: 25px;
+}
+.grid-item{
+  height: 350px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+}
+.operation-box{
+  text-align: center;
+}
+img{
+  object-fit: contain;
+}

@@ -78,10 +78,14 @@ body{
   display: flex;
   flex-direction: column;
   border: 2px solid black;
+  cursor: pointer;
 }
 .operation-box{
   text-align: center;
 }
 img{
   object-fit: contain;
+}
+.text{
+  text-align: justify;
 }

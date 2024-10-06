@@ -7,12 +7,12 @@ function UpdateBook(){
     const location = useLocation();
     const { data : bookData } = location.state || {};
     const [error, setError] = useState(null)
-    const [jsonData, setJsonData] = useState(null)
+    const [jsonData, setJsonData] = useState()
     
     const [formData, setFormData] = useState({
         title: '',
         author_name: '',
-        genre: '',
+        genre: ''
     });
 
     useEffect(() => {
@@ -21,7 +21,7 @@ function UpdateBook(){
             setFormData({
                 title: bookData.title || '',
                 author_name: bookData.author_name || '',
-                genre: bookData.genre || '',
+                genre: bookData.genre || ''
             });
         }
     }, [bookData]);
@@ -30,7 +30,7 @@ function UpdateBook(){
         const { name, value } = e.target;
         setFormData(prevState => ({
             ...prevState,
-            [name]: value,
+            [name]: value
         }));
     };
 
@@ -38,7 +38,7 @@ function UpdateBook(){
     const config = {
         headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
     };
 

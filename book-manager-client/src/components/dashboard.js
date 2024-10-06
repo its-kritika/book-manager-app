@@ -10,7 +10,7 @@ function Dashboard() {
         { name: 'Read All Books', url: '/books', heading: 'List of all your Books'},
         { name: 'Read Single Book' },
         { name: 'Read Profile', url: '/users/me', heading: 'About You'},
-        { name: 'Update User', url: '/user/me' },
+        { name: 'Update User', url: '/users/me' },
         { name: 'Delete User', url: '/user/me'},
         { name: 'Logout All Users', url: '/users/logoutAll'}
     ]
@@ -18,13 +18,14 @@ function Dashboard() {
     const navigate = useNavigate();
     const token = localStorage.getItem('authToken');
 
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+    };
+
     const handleClick = async (operation) => {
-        const config = {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-        };
     
         // Reusable function to handle prompts for Book ID
         const getBookId = () => prompt("Enter the Book ID:");
@@ -33,30 +34,34 @@ function Dashboard() {
             let response;
             let url = `http://localhost:5000${operation.url}`;
     
-            if (operation.name === 'Read All Books' || operation.name === 'Read Profile') {
+            if (operation.name === 'Read All Books' || operation.name === 'Read Profile' || operation.name === 'Update User') {
         
                 response = await axios.get(url, config);
                 if (response.status === 200) {
                     setError(null); // Clear error on success
-                    navigate(`/dashboard/json-data`, { state: { data: response.data, heading: operation.heading } });
+                    if (operation.name === 'Update User'){
+                        navigate(`/dashboard/update-your-details`, { state: { data: response.data } });
+                    } else{
+                        navigate(`/dashboard/json-data`, { state: { data: response.data, heading: operation.heading } });
+                    }
                 }
 
             } else if (operation.name === 'Read Single Book' || operation.name === 'Delete Book' || operation.name === 'Update Book') {
 
                 const bookId = getBookId(); // Get Book ID from user
-                const url = `http://localhost:5000/book/${bookId}`
+                const bookUrl = `http://localhost:5000/book/${bookId}`
                 if (bookId) {
                     
                     if (operation.name === 'Delete Book') {
                     
-                        response = await axios.delete(url, config);
+                        response = await axios.delete(bookUrl, config);
                         if (response.status === 200) {
                             setError(null); // Clear error on success
                             navigate(`/dashboard/json-data`, { state: { data: response.data, heading: `Your Book with ID: ${bookId} was successfully deleted!` } });
                         }
                     } else {
             
-                        response = await axios.get(url, config);
+                        response = await axios.get(bookUrl, config);
                         if (response.status === 200) {
                             setError(null); // Clear error on success
                             if (operation.name === 'Read Single Book') {
@@ -100,11 +105,23 @@ function Dashboard() {
             }
         }
     };    
+
+    const logOut = async () => {
+        try{
+            const response = await axios.post('http://localhost:5000/users/logout', {}, config)
+            if (response.status === 200) {
+                navigate('/');
+            }
+        } catch(e){
+            setError('An error occurred')
+        }
+        
+    }
     
     return (
         <div>
             <div className='back-button'>
-                <span>Logout</span>
+                <span onClick={ logOut }>Logout</span>
             </div>
             <div className='operation-box'>
                 <div className='grid'>

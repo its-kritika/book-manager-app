@@ -4,15 +4,15 @@ import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
     const operations = [
-        { name: 'Create Book' },
+        { name: 'Create Book', heading: 'Enter Details of the Book'},
         { name: 'Update Book' },
         { name: 'Delete Book' },
         { name: 'Read All Books', url: '/books', heading: 'List of all your Books'},
         { name: 'Read Single Book' },
         { name: 'Read Profile', url: '/users/me', heading: 'About You'},
-        { name: 'Update User' },
-        { name: 'Delete User' },
-        { name: 'Logout All Users' }
+        { name: 'Update User', url: '/user/me' },
+        { name: 'Delete User', url: '/user/me'},
+        { name: 'Logout All Users', url: '/users/logoutAll'}
     ]
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -41,34 +41,56 @@ function Dashboard() {
                     navigate(`/dashboard/json-data`, { state: { data: response.data, heading: operation.heading } });
                 }
 
-            } else if (operation.name === 'Read Single Book' || operation.name === 'Delete Book') {
-                
+            } else if (operation.name === 'Read Single Book' || operation.name === 'Delete Book' || operation.name === 'Update Book') {
+
                 const bookId = getBookId(); // Get Book ID from user
+                const url = `http://localhost:5000/book/${bookId}`
                 if (bookId) {
                     
                     if (operation.name === 'Delete Book') {
                     
-                        response = await axios.delete(`http://localhost:5000/book/${bookId}`, config);
+                        response = await axios.delete(url, config);
                         if (response.status === 200) {
                             setError(null); // Clear error on success
                             navigate(`/dashboard/json-data`, { state: { data: response.data, heading: `Your Book with ID: ${bookId} was successfully deleted!` } });
                         }
                     } else {
-                        // Read Single Book
-                        response = await axios.get(`http://localhost:5000/books/${bookId}`, config);
+            
+                        response = await axios.get(url, config);
                         if (response.status === 200) {
                             setError(null); // Clear error on success
-                            navigate(`/dashboard/json-data`, { state: { data: response.data, heading: `Details of Book ID: ${bookId}` } });
+                            if (operation.name === 'Read Single Book') {
+                                navigate(`/dashboard/json-data`, { state: { data: response.data, heading: `Details of Book ID: ${bookId}` } });
+                            } else{
+                                navigate(`/dashboard/update-your-book`, { state: { data: response.data } });
+                            }
                         }
                     }
                 } else {
                     setError('No Book ID provided');
                 }
 
+            } else if (operation.name === 'Delete User' || operation.name === 'Logout All Users') {
+                // Show a confirmation dialog to the user
+                const confirmationMessage = operation.name === 'Delete User' 
+                  ? 'Are you sure you want to permanently delete your account? This action cannot be undone.'
+                  : 'This action will remove your account from all devices and redirect you to the login page.'
+
+                const isConfirmed = window.confirm(confirmationMessage);
+
+                if (isConfirmed){
+                    const response = operation.name === 'Delete User' 
+                            ? await axios.delete(url, config)
+                            : await axios.post(url, {}, config);
+
+                    if (response.status === 200) {
+                        navigate('/');
+                    }
+                }
+
             } else {
-                // Handle other operations
-                navigate('/dashboard/forms');
-            }
+                navigate('/dashboard/create-book', {state : { heading : operation.heading }});
+            } 
         } catch (e) {
             // Handle errors and display on the screen
             if (e.response) {

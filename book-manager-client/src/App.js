@@ -1,9 +1,9 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import AuthForm from './routers/user';
-import Dashboard from './routers/dashboards'
+import AuthForm from './routers/login';
+import Dashboard from './routers/dashboard'
 import JsonData from './routers/json-data';
-import AllForms from './routers/form';
+import UpdateBook from './routers/update-book';
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <Route path="/" element={<AuthForm />} />
         <Route path="/dashboard" element={<Dashboard />} /> 
         <Route path="/dashboard/json-data" element={<JsonData />} /> 
-        <Route path="/dashboard/forms" element={<AllForms />} />
+        <Route path="/dashboard/update-your-book" element={<UpdateBook />} />
       </Routes>
       
     </div>

@@ -25,7 +25,7 @@ router.get('/books', auth, async (req, res) =>{
     }
 })
 
-router.get('/books/:id', auth, async (req, res) => {
+router.get('/book/:id', auth, async (req, res) => {
 
     const _id = req.params.id
 

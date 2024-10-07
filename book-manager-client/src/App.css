@@ -13,14 +13,17 @@ body{
   width: 65%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin: 0 auto;
+  padding-bottom: 1.5rem;
 }
 .sign-form form{
   padding: 10%;
+  padding-bottom: 6%;
 }
 .extras{
   width: 65%;
   padding: 5%;
   margin: 0 auto;
+  padding-bottom: 0;
 }
 .box{
   display: flex;
@@ -61,8 +64,8 @@ body{
 .p-sign{
   text-decoration: underline;
   color: #0000EE;
-  margin-top: 0;
   cursor: pointer;
+  margin: 0;
 }
 .grid{
   display: flex;
@@ -71,6 +74,7 @@ body{
   margin: 5% auto;
   justify-content: space-between;
   gap: 25px;
+  text-align: center;
 }
 .grid-item{
   height: 350px;
@@ -80,12 +84,39 @@ body{
   border: 2px solid black;
   cursor: pointer;
 }
-.operation-box{
-  text-align: center;
-}
 img{
   object-fit: contain;
 }
 .text{
   text-align: justify;
+  font-size: 14px;
+}
+.eText{
+  color: red;
+  font-size: 16px;
+}
+.text pre{
+  margin-bottom: 0;
+}
+.login-error{
+  margin: 30px 20px;
+}
+.center{
+  text-align: center;
+}
+.center pre{
+  margin-top: 0;
+}
+.password{
+  text-align: end;
+  margin-right: 10px;
+  font-size: 15px;
+  color: rgb(88, 88, 88);
+}
+.password span:hover{
+  text-decoration: underline;
+}
+.password span{
+  cursor: pointer;
+  margin-bottom: 20px;
 }

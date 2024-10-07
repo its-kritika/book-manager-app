@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import axios from 'axios'
+import FormComponent from './form'
+import JsonFormat from './json-format-display';
 
 function UpdateBook(){
 
@@ -53,6 +55,7 @@ function UpdateBook(){
                 setJsonData(response.data)
             }
         } catch(e) {
+            setJsonData()
             if (e.response){
                 setError(e.response.data);
             } else {
@@ -61,51 +64,29 @@ function UpdateBook(){
         }
     }
 
+    const fields = [
+        { label: 'Title', name: 'title', type: 'text' },
+        { label: 'Author', name: 'author_name', type: 'text' },
+        { label: 'Genre', name: 'genre', type: 'text' }
+    ];
+
 
     return(
-        <div className='container'>
-            <h1>Alter fields to update</h1>
-            <div className='sign-form'>
-                <form onSubmit={ handleSubmit }>
-                    <div className='box'>
-                        <label>Title:</label>
-                        <input
-                            type="text"
-                            value={formData.title}
-                            name="title"
-                            onChange={handleChange}
-                            className = 'input-form'
-                            required />
-                    </div>
-                    <div className='box'>
-                        <label>Author:</label>
-                        <input
-                            type="text"
-                            value={formData.author_name}
-                            name="author_name"
-                            onChange={handleChange}
-                            className = 'input-form'
-                            required />
-                    </div>
-                    <div className='box'>
-                        <label>Genre:</label>
-                        <input
-                            type="text"
-                            value={formData.genre}
-                            name="genre"
-                            onChange={handleChange}
-                            className = 'input-form'
-                            required />
-                    </div>
-                    <div className='sign-container'>
-                        <button type="submit" className='sign-button'>Update Book</button>
-                    </div>
-                </form>
+        <div className='login-error'>
+            <div className='container'>
+                <h1>Alter fields to update</h1>
+                <div className='sign-form'>
+                    <FormComponent 
+                        fields = {fields}
+                        formData={formData}
+                        handleChange={ handleChange }
+                        handleSubmit={ handleSubmit }
+                        submitButton='Update Book'
+                        />
+                </div>
             </div>
-            <div className='container text'>
-                <pre>{JSON.stringify(jsonData, null, 2)}</pre> 
-            </div>
-            {error && <p style={{ color: 'red' }}>Error: {JSON.stringify(error)}</p>}
+            { jsonData && <JsonFormat jData = { jsonData } />}
+            { error && <JsonFormat jData = { error }  errorClass='eText' />}
         </div>
     )
 }

@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import JsonFormat from './json-format-display';
 
 function JsonData() {
     const location = useLocation();
@@ -7,9 +8,9 @@ function JsonData() {
     return (
         <div>
             {data ? (
-                <div className='container text'>
+                <div className='login-error'>
                     <h2>{ heading }</h2>
-                    <pre>{JSON.stringify(data, null, 2)}</pre> 
+                    <JsonFormat jData = { data } />
                 </div>
             ) : (
                 <p>No data available</p>

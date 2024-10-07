@@ -1,10 +1,14 @@
 import { useState } from 'react'
 import axios from 'axios'
+import FormComponent from './form'
+import JsonFormat from './json-format-display'
 
 function CreateBook(){
-    const [title, setTitle] = useState('')
-    const [author, setAuthor] = useState('')
-    const [genre, setGenre] = useState('')
+    const [formData, setFormData] = useState({
+        title : '',
+        author : '',
+        genre : ''
+    })
     const [error, setError] = useState(null)
     const [jsonData, setJsonData] = useState()
     
@@ -17,12 +21,19 @@ function CreateBook(){
         },
     };
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         
         try{
-            const bookData = {title, author_name: author, genre}
-            const response = await axios.post(`http://localhost:5000/books`, bookData, config)
+            const response = await axios.post(`http://localhost:5000/books`, formData, config)
             if (response.status === 201){
                 setError(null)
                 setJsonData(response.data)
@@ -36,52 +47,29 @@ function CreateBook(){
         }
     }
 
+    const fields = [
+        { label: 'Title', name: 'title', type: 'text' },
+        { label: 'Author', name: 'author_name', type: 'text' },
+        { label: 'Genre', name: 'genre', type: 'text' }
+    ]
+
 
     return(
-        <div className='container'>
-            <h1>Enter details of the book</h1>
-            <div className='sign-form'>
-                <form onSubmit={ handleSubmit }>
-                    <div className='box'>
-                        <label>Title:</label>
-                        <input
-                            type="text"
-                            value={title}
-                            name='title'
-                            onChange={(e) => setTitle(e.target.value)}
-                            className = 'input-form'
-                            required />
-                    </div>
-                    <div className='box'>
-                        <label>Author:</label>
-                        <input
-                            type="text"
-                            value={author}
-                            name='author'
-                            onChange={(e) => setAuthor(e.target.value)}
-                            className = 'input-form'
-                            required />
-                    </div>
-                    <div className='box'>
-                        <label>Genre:</label>
-                        <input
-                            type="text"
-                            value={genre}
-                            name='genre'
-                            onChange={(e) => setGenre(e.target.value)}
-                            className = 'input-form'
-                            required />
-                    </div>
-                    
-                    <div className='sign-container'>
-                        <button type="submit" className='sign-button'>Create Book</button>
-                    </div>
-                </form>
+        <div className='login-error'>
+            <div className='container'>
+                <h1>Enter details of the book</h1>
+                <div className='sign-form'>
+                    <FormComponent 
+                        fields = { fields }
+                        formData={formData}
+                        handleChange={ handleChange }
+                        handleSubmit={ handleSubmit }
+                        submitButton='Create Book'
+                    />
+                </div>
             </div>
-            <div className='container text'>
-                <pre>{JSON.stringify(jsonData, null, 2)}</pre> 
-            </div>
-            {error && <p style={{ color: 'red' }}>Error: {JSON.stringify(error)}</p>}
+            { jsonData && <JsonFormat jData = { jsonData } />}
+            { error && <JsonFormat jData = { error }  errorClass='eText' />}
         </div>
     )
 }

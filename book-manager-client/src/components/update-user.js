@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import axios from 'axios'
+import FormComponent from './form'
+import JsonFormat from './json-format-display';
 
 function UpdateUser(){
 
@@ -51,6 +53,7 @@ function UpdateUser(){
                 setJsonData(response.data)
             }
         } catch(e) {
+            setJsonData()
             if (e.response){
                 setError(e.response.data);
             } else {
@@ -58,43 +61,28 @@ function UpdateUser(){
             }
         }
     }
-
+    
+    const fields = [
+        { label: 'Name', name: 'name', type: 'text' },
+        { label: 'Email', name: 'email', type: 'email' },
+    ];
 
     return(
-        <div className='container'>
-            <h1>Alter fields to update</h1>
-            <div className='sign-form'>
-                <form onSubmit={ handleSubmit }>
-                    <div className='box'>
-                        <label>Name:</label>
-                        <input
-                            type="text"
-                            value={formData.name}
-                            name="name"
-                            onChange={handleChange}
-                            className = 'input-form'
-                            required />
-                    </div>
-                    <div className='box'>
-                        <label>Email:</label>
-                        <input
-                            type="email"
-                            value={formData.email}
-                            name="email"
-                            onChange={handleChange}
-                            className = 'input-form'
-                            required />
-                    </div>
-                    
-                    <div className='sign-container'>
-                        <button type="submit" className='sign-button'>Update User</button>
-                    </div>
-                </form>
+        <div className='login-error'>
+            <div className='container'>
+                <h1>Alter fields to update</h1>
+                <div className='sign-form'>
+                    <FormComponent 
+                        fields = {fields}
+                        formData={formData}
+                        handleChange={ handleChange }
+                        handleSubmit={ handleSubmit }
+                        submitButton='Update User'
+                        />
+                </div>
             </div>
-            <div className='container text'>
-                <pre>{JSON.stringify(jsonData, null, 2)}</pre> 
-            </div>
-            {error && <p style={{ color: 'red' }}>Error: {JSON.stringify(error)}</p>}
+            { jsonData && <JsonFormat jData = { jsonData } />}
+            { error && <JsonFormat jData = { error } errorClass='eText'/>}
         </div>
     )
 }

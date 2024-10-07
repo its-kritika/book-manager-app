@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import JsonFormat from './json-format-display'
 
 function Dashboard() {
     const operations = [
@@ -46,35 +47,6 @@ function Dashboard() {
                     }
                 }
 
-            } else if (operation.name === 'Read Single Book' || operation.name === 'Delete Book' || operation.name === 'Update Book') {
-
-                const bookId = getBookId(); // Get Book ID from user
-                const bookUrl = `http://localhost:5000/book/${bookId}`
-                if (bookId) {
-                    
-                    if (operation.name === 'Delete Book') {
-                    
-                        response = await axios.delete(bookUrl, config);
-                        if (response.status === 200) {
-                            setError(null); // Clear error on success
-                            navigate(`/dashboard/json-data`, { state: { data: response.data, heading: `Your Book with ID: ${bookId} was successfully deleted!` } });
-                        }
-                    } else {
-            
-                        response = await axios.get(bookUrl, config);
-                        if (response.status === 200) {
-                            setError(null); // Clear error on success
-                            if (operation.name === 'Read Single Book') {
-                                navigate(`/dashboard/json-data`, { state: { data: response.data, heading: `Details of Book ID: ${bookId}` } });
-                            } else{
-                                navigate(`/dashboard/update-your-book`, { state: { data: response.data } });
-                            }
-                        }
-                    }
-                } else {
-                    setError('No Book ID provided');
-                }
-
             } else if (operation.name === 'Delete User' || operation.name === 'Logout All Users') {
                 // Show a confirmation dialog to the user
                 const confirmationMessage = operation.name === 'Delete User' 
@@ -93,9 +65,38 @@ function Dashboard() {
                     }
                 }
 
-            } else {
+            } else if (operation.name === 'Create Book'){
                 navigate('/dashboard/create-book', {state : { heading : operation.heading }});
-            } 
+
+            } else {
+                const bookId = getBookId(); // Get Book ID from user
+                const bookUrl = `http://localhost:5000/book/${bookId}`
+                if (bookId) {
+                        
+                    if (operation.name === 'Delete Book') {
+                        
+                        response = await axios.delete(bookUrl, config);
+                        if (response.status === 200) {
+                            setError(null); // Clear error on success
+                            navigate(`/dashboard/json-data`, { state: { data: response.data, heading: `Your Book with ID: ${bookId} was successfully deleted!` } });
+                        }
+                    } else {
+                
+                        response = await axios.get(bookUrl, config);
+                        if (response.status === 200) {
+                            setError(null); // Clear error on success
+                            if (operation.name === 'Read Single Book') {
+                                navigate(`/dashboard/json-data`, { state: { data: response.data, heading: `Details of Book ID: ${bookId}` } });
+                            } else{
+                                navigate(`/dashboard/update-your-book`, { state: { data: response.data } });
+                            }
+                        }
+                    }
+                } else {
+                    setError('No Book ID provided');
+                }
+    
+            }
         } catch (e) {
             // Handle errors and display on the screen
             if (e.response) {
@@ -115,7 +116,6 @@ function Dashboard() {
         } catch(e){
             setError('An error occurred')
         }
-        
     }
     
     return (
@@ -123,17 +123,15 @@ function Dashboard() {
             <div className='back-button'>
                 <span onClick={ logOut }>Logout</span>
             </div>
-            <div className='operation-box'>
-                <div className='grid'>
-                    {operations.map((operation, index) => (
-                        <div key={index} className='grid-item' onClick={() => handleClick(operation)}>
-                            <img src='/images/books.jpg' alt='book' />
-                            {operation.name}
-                        </div>
-                    ))}
-                </div>
+            { error && <JsonFormat jData = { error }  errorClass='eText' />}
+            <div className='grid'>
+                {operations.map((operation, index) => (
+                    <div key={index} className='grid-item' onClick={() => handleClick(operation)}>
+                        <img src='/images/books.jpg' alt='book' />
+                        {operation.name}
+                    </div>
+                ))}
             </div>
-            {error && <p style={{ color: 'red' }}>Error: {JSON.stringify(error)}</p>}
         </div>
     );
 }

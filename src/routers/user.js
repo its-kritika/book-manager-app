@@ -2,6 +2,7 @@ const express = require('express')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
 const router = new express.Router()
+const { sendResetPasswordEmail } = require('../emails/account')
 
 router.post('/users', async (req, res) => {
     const user = new User(req.body)
@@ -24,6 +25,23 @@ router.post('/users/login', async (req, res) => {
         res.send({user, token})
     }catch(e){
         res.status(400).send('Wrong Credentials!')
+    }
+})
+
+//forgot password
+router.post('/users/forgot-password', async (req, res) => {
+    try{
+        const user = await User.findOne({ email : req.body.email})
+        
+        if (!user){
+            return res.status(404).send('User Not Found!')
+        }
+        const token = await user.generateAuthToken('2m')
+        sendResetPasswordEmail(user.email, user.name, token)
+        
+        res.send({ user, token})
+    }catch(e){
+        res.status(500).send('Enter Valid ID')
     }
 })
 

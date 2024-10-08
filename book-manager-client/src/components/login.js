@@ -61,6 +61,10 @@ function AuthForm() {
         }));
     }
 
+    const handleForgotPass = () => {
+        navigate('/forgot-password')
+    }
+
     // if isSignUp true, name field will be displayed else no
     const fields = [
         ...(isSignUp ? [{ label: 'Name', name: 'name', type: 'text' }] : []),
@@ -88,7 +92,7 @@ function AuthForm() {
                     />
                 { isSignUp ? '' : (
                     <div className='password'>   
-                        <span onClick={toggleForm}>Forgot Password?</span>
+                        <span onClick={handleForgotPass}>Forgot Password?</span>
                     </div>
                 )}
                 </div>

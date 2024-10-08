@@ -6,6 +6,8 @@ import JsonData from './components/json-data';
 import UpdateBook from './components/update-book';
 import UpdateUser from './components/update-user';
 import CreateBook from './components/create-book';
+import ForgotPassword from './components/forgot-password'
+import ResetPassword from './components/reset-password';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route path="/dashboard/update-your-book" element={<UpdateBook />} />
         <Route path="/dashboard/update-your-details" element={<UpdateUser />} />
         <Route path="/dashboard/create-book" element={<CreateBook />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
       
     </div>

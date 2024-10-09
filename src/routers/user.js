@@ -36,7 +36,7 @@ router.post('/users/forgot-password', async (req, res) => {
         if (!user){
             return res.status(404).send('User Not Found!')
         }
-        const token = await user.generateAuthToken('2m')
+        const token = await user.generateAuthToken('10m')
         sendResetPasswordEmail(user.email, user.name, token)
         
         res.send({ user, token})

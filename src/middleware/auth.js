@@ -21,12 +21,12 @@ const auth = async (req, res, next) => {
 
     }catch(e){
         if (e.name === 'TokenExpiredError') {
-            return res.status(401).send({ error: 'Token has expired. Please log in again.' });
+            return res.status(401).send({'error' : 'Token has expired. Please log in again.'} );
         }
         else if (e.name === 'JsonWebTokenError') {
-            return res.status(401).send({ error: 'Invalid token. Please authenticate' });
+            return res.status(401).send({'error' : 'Invalid token. Please authenticate' });
         }
-        res.status(401).send({ 'error' : 'Please authenticate'})
+        res.status(401).send({'error' : 'Please authenticate'})
     }
 }
 

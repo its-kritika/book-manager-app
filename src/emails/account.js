@@ -18,7 +18,7 @@ const sendResetPasswordEmail = (email, name, token) => {
             <p>Hello ${name},</p>
             <p>Click <a href="${url}">here</a> to reset your password.</p>
             <p>If you didn't request this, please ignore this email.</p>
-            <p>This link will expire within 2 minutes.</p>
+            <p>This link will expire in 10 minutes.</p>
             <p>Thanks,<br/>Kritika</p>
         `,
     }

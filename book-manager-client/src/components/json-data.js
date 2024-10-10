@@ -9,7 +9,7 @@ function JsonData() {
         <div>
             {data ? (
                 <div className='login-error'>
-                    <h2>{ heading }</h2>
+                    <h2 className='heading'>{ heading }</h2>
                     <JsonFormat jData = { data } />
                 </div>
             ) : (

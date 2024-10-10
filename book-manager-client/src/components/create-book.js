@@ -57,7 +57,7 @@ function CreateBook(){
     return(
         <div className='login-error'>
             <div className='container'>
-                <h1>Enter details of the book</h1>
+                <h1 className='heading'>Enter details of the book</h1>
                 <div className='sign-form'>
                     <FormComponent 
                         fields = { fields }

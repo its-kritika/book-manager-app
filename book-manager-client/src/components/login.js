@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import FormComponent from './form';
 import JsonFormat from './json-format-display';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 function AuthForm() {
     const [isSignUp, setIsSignUp] = useState(true); // toggle between signup and signIn
@@ -75,14 +77,14 @@ function AuthForm() {
     return (
         <div className='login-error'>
             <div className='container'>
-                <h1>{ isSignUp ? 'Signup Form' : 'SignIn Form'}</h1>
+                <h1 className='heading'>{ isSignUp ? 'Signup Form' : 'SignIn Form'}</h1>
                 
                 <div className='sign-form'>
-                { isSignUp ? '' : (
-                    <div className='back-button'>   
-                        <span onClick={toggleForm}>back</span>
-                    </div>
-                )}
+                    { isSignUp ? '' : (
+                        <div className='back-button'>   
+                            <span onClick={toggleForm}><FontAwesomeIcon icon={faArrowLeft} /></span>
+                        </div>
+                    )}
                     <FormComponent 
                         fields ={ fields }
                         formData={ formData }
@@ -90,17 +92,18 @@ function AuthForm() {
                         handleSubmit={ handleSubmit }
                         submitButton= {isSignUp ? 'Sign Up' : 'Sign In'}
                     />
-                { isSignUp ? '' : (
-                    <div className='password'>   
-                        <span onClick={handleForgotPass}>Forgot Password?</span>
-                    </div>
-                )}
-                </div>
-                { isSignUp && 
+                    { isSignUp ? '' : (
+                        <div className='password'>   
+                            <span onClick={handleForgotPass}>Forgot Password?</span>
+                        </div>
+                    )}
+                    { isSignUp && 
                     <div className='extras'>
                         <p className = 'p-sign' onClick = {toggleForm}>Already have an account? Click Here to Sign In</p>  
                     </div>
-                }
+                    }
+                </div>
+                
             </div>
             { error && <JsonFormat jData = { error }  errorClass={`eText ${isSignUp ? '' : 'center'}`} />}
         </div>

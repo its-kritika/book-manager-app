@@ -1,29 +1,61 @@
-body{
-  margin : 0;
-  background-color: whitesmoke;
+body {
+  margin: 0;
+  background: linear-gradient(to right, #48412d 0%, #434232 40%, #434232 70%, #171612 100%);
   box-sizing: border-box;
+  position: relative;
+  height: 100vh;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../public/images/book4.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: brightness(50%); 
+  z-index: -1; 
+}
+body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2); 
+  z-index: -2;
 }
 .container{
   width: 50%;
   margin: 0 auto;
   padding: 5%;
   text-align: center;
+  padding-bottom: 0;
 }
-.sign-form{
+
+.sign-form {
   width: 65%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin: 0 auto;
-  padding-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.25);
+  margin: 2rem auto; 
+  padding-bottom: 2rem; 
+  border-radius: 12px; 
+  background: rgba(255, 255, 255, 0.612); 
+  backdrop-filter: blur(8px);
+  font-size: 17px;
+  color: #0f0f0f;
 }
+
 .sign-form form{
   padding: 10%;
   padding-bottom: 6%;
 }
 .extras{
-  width: 65%;
-  padding: 5%;
+  width: 70%;
   margin: 0 auto;
-  padding-bottom: 0;
 }
 .box{
   display: flex;
@@ -32,13 +64,17 @@ body{
 .back-button{
   width: 100%;
   border-bottom: 1px solid rgb(20, 20, 20);
-  background-color: rgb(229, 229, 229);
+  background: transparent;
   text-indent: 7px;
-  padding: 7px 0;
+  display: inline-flex; 
+  align-items: center;
   text-align: left;
+  padding: 12px 0;
+  font-size: 22px;
 }
 .back-button span{
   cursor: pointer;
+  margin-left: 10px;
 }
 .back-button span:hover{
   text-decoration: underline;
@@ -47,9 +83,14 @@ body{
   flex-grow: 1;
 }
 .input-form{
-  height: 30px;
+  height: 35px;
   margin: 7px;
   width: 72%;
+  background: transparent;
+  border: 1px solid black;
+  text-indent: 5px;
+  outline: none;
+  font-size: 15px;
 }
 .sign-container{
   width: 45%;
@@ -57,49 +98,66 @@ body{
   margin-top: 8%;
 }
 .sign-button{
-  height: 35px;
-  width: 100%;
+  height: 42px;
+  width: 90%;
   cursor: pointer;
+  background-color: rgb(142, 22, 22);
+  color: whitesmoke;
+  border: none;
+  font-size: 15px;
+  border-radius: 8px;
+}
+.sign-button:hover{
+  background-color: rgb(110, 16, 16);
 }
 .p-sign{
   text-decoration: underline;
   color: #0000EE;
   cursor: pointer;
   margin: 0;
+  font-size: 16px;
 }
 .grid{
   display: flex;
   flex-wrap: wrap;
   width: 70%;
-  margin: 5% auto;
+  margin: 7.8rem auto;
   justify-content: space-between;
   gap: 25px;
   text-align: center;
 }
 .grid-item{
-  height: 350px;
+  height: 100px;
   width: 300px;
   display: flex;
   flex-direction: column;
-  border: 2px solid black;
+  border: 3px solid rgb(203, 203, 203);
   cursor: pointer;
+  justify-content: center;
+  font-size: 18px;
+  color: whitesmoke;
+  background: rgba(255, 255, 255, 0.173); 
+  backdrop-filter: blur(4px);
 }
-img{
-  object-fit: contain;
+.grid-item:hover{
+  color: rgb(188, 188, 188);
 }
 .text{
   text-align: justify;
   font-size: 14px;
+  margin: 20px 0;
+  color: whitesmoke;
 }
 .eText{
-  color: red;
-  font-size: 16px;
+  color: rgb(254, 49, 3);
+  font-size: 17px;
 }
 .text pre{
   margin-bottom: 0;
 }
 .login-error{
-  margin: 30px 20px;
+  margin: 0 30px 20px 30px;
+  padding-top: 30px;
 }
 .center{
   text-align: center;
@@ -111,7 +169,7 @@ img{
   text-align: end;
   margin-right: 10px;
   font-size: 15px;
-  color: rgb(88, 88, 88);
+  color: rgb(34, 34, 34)
 }
 .password span:hover{
   text-decoration: underline;
@@ -119,4 +177,23 @@ img{
 .password span{
   cursor: pointer;
   margin-bottom: 20px;
+}
+.logout{
+  justify-content: end;
+  font-size: 17px;
+  height: 26px;
+}
+.font-flex{
+  display: flex;
+  color: rgb(236, 236, 236);
+  align-items: center;
+  margin-right: 2rem;
+  cursor: pointer;
+}
+.font-flex:hover{
+  text-decoration: underline;
+}
+.heading{
+  color: whitesmoke;
+  margin-top: 0;
 }

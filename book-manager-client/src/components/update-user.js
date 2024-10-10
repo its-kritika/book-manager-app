@@ -70,7 +70,7 @@ function UpdateUser(){
     return(
         <div className='login-error'>
             <div className='container'>
-                <h1>Alter fields to update</h1>
+                <h1 className='heading'>Alter fields to update</h1>
                 <div className='sign-form'>
                     <FormComponent 
                         fields = {fields}

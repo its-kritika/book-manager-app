@@ -2,6 +2,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import JsonFormat from './json-format-display'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 function Dashboard() {
     const operations = [
@@ -15,7 +17,7 @@ function Dashboard() {
         { name: 'Delete User', url: '/user/me'},
         { name: 'Logout All Users', url: '/users/logoutAll'}
     ]
-    const [error, setError] = useState(null);
+    const [error, setError] = useState();
     const navigate = useNavigate();
     const token = localStorage.getItem('authToken');
 
@@ -27,7 +29,7 @@ function Dashboard() {
     };
 
     const handleClick = async (operation) => {
-    
+        setError()
         // Reusable function to handle prompts for Book ID
         const getBookId = () => prompt("Enter the Book ID:");
     
@@ -120,14 +122,14 @@ function Dashboard() {
     
     return (
         <div>
-            <div className='back-button'>
-                <span onClick={ logOut }>Logout</span>
+            <div className='back-button logout'>
+                <div onClick={ logOut } className='font-flex'><FontAwesomeIcon icon={faRightFromBracket} />Logout</div>
             </div>
-            { error && <JsonFormat jData = { error }  errorClass='eText' />}
+            <JsonFormat jData = { error }  errorClass='eText center' />
             <div className='grid'>
                 {operations.map((operation, index) => (
                     <div key={index} className='grid-item' onClick={() => handleClick(operation)}>
-                        <img src='/images/books.jpg' alt='book' />
+                        {/* <img src='/images/books.jpg' alt='book' /> */}
                         {operation.name}
                     </div>
                 ))}

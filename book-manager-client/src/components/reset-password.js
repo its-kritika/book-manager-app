@@ -67,7 +67,7 @@ function ResetPassword({ type }) {
     return (
         <div className='login-error'>
             <div className='container'>
-                <h1>{type === 'forgot' ? 'Enter your ID' : 'Reset Password'}</h1>
+                <h1 className='heading'>{type === 'forgot' ? 'Enter your ID' : 'Reset Password'}</h1>
                 <div className='sign-form'>
                     <FormComponent
                         fields={fields}

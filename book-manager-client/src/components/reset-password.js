@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import FormComponent from './form';
 import axios from 'axios';
 import JsonFormat from './json-format-display';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 function ResetPassword({ type }) {
     const location = useLocation();
@@ -11,6 +13,7 @@ function ResetPassword({ type }) {
     const [token, setToken] = useState(null);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
+    const navigate = useNavigate()
 
     // detect url change for reset password token
     useEffect(() => {
@@ -60,6 +63,10 @@ function ResetPassword({ type }) {
         }
     };
 
+    const toggleForm = () => {
+        navigate('/')
+    }
+
     const fields = type === 'forgot'
         ? [{ label: 'Email', name: 'email', type: 'email' }]
         : [{ label: 'Password', name: 'password', type: 'password' }];
@@ -69,6 +76,11 @@ function ResetPassword({ type }) {
             <div className='container'>
                 <h1 className='heading'>{type === 'forgot' ? 'Enter your ID' : 'Reset Password'}</h1>
                 <div className='sign-form'>
+                    { type === 'reset' ? '' : (
+                        <div className='back-button'>   
+                            <span onClick={toggleForm}><FontAwesomeIcon icon={faArrowLeft} /></span>
+                        </div>
+                    )}
                     <FormComponent
                         fields={fields}
                         formData={type === 'forgot' ? { email } : { password }}

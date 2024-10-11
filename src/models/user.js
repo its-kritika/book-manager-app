@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema({
             }
         }
     },
+    googleId: String,  //for google-auth
     tokens : [{
         token : {
             type : String,

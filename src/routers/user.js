@@ -1,6 +1,7 @@
 const express = require('express')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
+const passport = require('passport')
 const router = new express.Router()
 const { sendResetPasswordEmail } = require('../emails/account')
 
@@ -77,7 +78,7 @@ router.get('/users/me', auth, async (req, res) => {
 
 router.patch('/user/me', auth, async (req, res) =>{
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'email', 'password']
+    const allowedUpdates = ['name', 'password']
     const isValidOperation = updates.every( (update) => allowedUpdates.includes(update))
 
     if (!isValidOperation){
@@ -103,5 +104,16 @@ router.delete('/user/me', auth, async (req, res) =>{
         res.status(500).send(e)
     }
 })
+
+router.get('/auth/google',
+    passport.authenticate('google', { scope: ['profile', 'email'] })); // we are requesting profile and email of user from google
+  
+router.get('/auth/google/callback', 
+    passport.authenticate('google', { failureRedirect: 'http://localhost:3000/authentication-failed' }),
+    async (req, res) => {
+        const token = await req.user.generateAuthToken();
+
+        res.redirect(`http://localhost:3000/dashboard?token=${token}`);
+    });
 
 module.exports = router

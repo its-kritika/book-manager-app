@@ -7,6 +7,7 @@ import UpdateBook from './components/update-book';
 import UpdateUser from './components/update-user';
 import CreateBook from './components/create-book';
 import ResetPassword from './components/reset-password';
+import PageNotFound from './components/page-not-found';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/dashboard/create-book" element={<CreateBook />} />
         <Route path="/forgot-password" element={<ResetPassword type = 'forgot' />} />
         <Route path="/reset-password" element={<ResetPassword type = 'reset'/>} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
       
     </div>

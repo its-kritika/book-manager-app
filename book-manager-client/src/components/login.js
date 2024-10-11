@@ -5,6 +5,7 @@ import FormComponent from './form';
 import JsonFormat from './json-format-display';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 function AuthForm() {
     const [isSignUp, setIsSignUp] = useState(true); // toggle between signup and signIn
@@ -67,6 +68,10 @@ function AuthForm() {
         navigate('/forgot-password')
     }
 
+    const handleGoogleLogin = () => {
+        window.location.href = 'http://localhost:5000/auth/google';
+    }
+
     // if isSignUp true, name field will be displayed else no
     const fields = [
         ...(isSignUp ? [{ label: 'Name', name: 'name', type: 'text' }] : []),
@@ -97,6 +102,13 @@ function AuthForm() {
                             <span onClick={handleForgotPass}>Forgot Password?</span>
                         </div>
                     )}
+                    <div className={`google-sign ${isSignUp ? '' : 'button-margin'}`}>
+                        <hr></hr>
+                        <p>or continue with</p>
+                        <button className='sign-button google-button' onClick={ handleGoogleLogin }>
+                            <span className='google-icon'><FontAwesomeIcon icon={faGoogle} /></span>Login with Google 
+                        </button>
+                    </div>
                     { isSignUp && 
                     <div className='extras'>
                         <p className = 'p-sign' onClick = {toggleForm}>Already have an account? Click Here to Sign In</p>  
@@ -105,7 +117,7 @@ function AuthForm() {
                 </div>
                 
             </div>
-            { error && <JsonFormat jData = { error }  errorClass={`eText ${isSignUp ? '' : 'center'}`} />}
+            { error && <JsonFormat jData = { error }  errorClass={`eText ${isSignUp ? '' : 'center height'}`} />}
         </div>
     );
 }

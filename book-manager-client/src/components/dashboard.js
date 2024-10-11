@@ -19,6 +19,10 @@ function Dashboard() {
     ]
     const [error, setError] = useState();
     const navigate = useNavigate();
+    const googleToken = new URLSearchParams(window.location.search).get('token') 
+    if (googleToken){
+        localStorage.setItem('authToken', googleToken);
+    }
     const token = localStorage.getItem('authToken');
 
     const config = {
@@ -40,6 +44,7 @@ function Dashboard() {
             if (operation.name === 'Read All Books' || operation.name === 'Read Profile' || operation.name === 'Update User') {
         
                 response = await axios.get(url, config);
+
                 if (response.status === 200) {
                     setError(null); // Clear error on success
                     if (operation.name === 'Update User'){
@@ -102,7 +107,8 @@ function Dashboard() {
         } catch (e) {
             // Handle errors and display on the screen
             if (e.response) {
-                setError(e.response.data.message || 'No data found!'); // Set error message from server response
+                console.log(e.response)
+                setError(e.response.data.error || 'No data found!'); // Set error message from server response
             } else {
                 setError('An error occurred'); // Fallback message if there's no server response
             }
@@ -125,11 +131,10 @@ function Dashboard() {
             <div className='back-button logout'>
                 <div onClick={ logOut } className='font-flex'><FontAwesomeIcon icon={faRightFromBracket} />Logout</div>
             </div>
-            <JsonFormat jData = { error }  errorClass='eText center' />
+            <JsonFormat jData = { error }  errorClass='eText center height' />
             <div className='grid'>
                 {operations.map((operation, index) => (
                     <div key={index} className='grid-item' onClick={() => handleClick(operation)}>
-                        {/* <img src='/images/books.jpg' alt='book' /> */}
                         {operation.name}
                     </div>
                 ))}

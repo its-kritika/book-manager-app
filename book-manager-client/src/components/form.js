@@ -11,6 +11,7 @@ function FormComponent({ fields, formData, handleChange, handleSubmit, submitBut
                         value={formData[field.name]}
                         onChange={handleChange}
                         className='input-form'
+                        disabled={field.disabled || false}
                     />
                 </div>
             ))}

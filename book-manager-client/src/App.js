@@ -15,7 +15,8 @@ function App() {
        <Routes>
         <Route path="/" element={<AuthForm />} />
         <Route path="/dashboard" element={<Dashboard />} /> 
-        <Route path="/dashboard/data" element={<TableFormat />} /> 
+        <Route path="/dashboard/read-data" element={<TableFormat />} /> 
+        <Route path="/dashboard/delete-data" element={<TableFormat />} /> 
         <Route path="/dashboard/update-your-book" element={<UpdateBook />} />
         <Route path="/dashboard/update-your-details" element={<UpdateUser />} />
         <Route path="/dashboard/create-book" element={<CreateBook />} />

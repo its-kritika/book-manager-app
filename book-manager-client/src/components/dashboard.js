@@ -59,7 +59,7 @@ function Dashboard() {
                     if (operation.name === 'Update User'){
                         navigate(`/dashboard/update-your-details`, { state: { data: response.data } });
                     } else{
-                        navigate(`/dashboard/data`, { state: { data: response.data, heading: operation.heading } });
+                        navigate(`/dashboard/read-data`, { state: { data: response.data, heading: operation.heading } });
                     }
                 }
 
@@ -94,7 +94,7 @@ function Dashboard() {
                         response = await axios.delete(bookUrl, config);
                         if (response.status === 200) {
                             setError(null); // Clear error on success
-                            navigate(`/dashboard/data`, { state: { data: response.data, heading: `Your Book with ID: ${bookId} was successfully deleted!` } });
+                            navigate(`/dashboard/delete-data`, { state: { data: response.data, heading: `Your Book with ID: ${bookId} was successfully deleted!` } });
                         }
                     } else {
                 
@@ -102,7 +102,7 @@ function Dashboard() {
                         if (response.status === 200) {
                             setError(null); // Clear error on success
                             if (operation.name === 'Read Single Book') {
-                                navigate(`/dashboard/data`, { state: { data: response.data, heading: `Details of Book ID: ${bookId}` } });
+                                navigate(`/dashboard/read-data`, { state: { data: response.data, heading: `Details of Book ID: ${bookId}` } });
                             } else{
                                 navigate(`/dashboard/update-your-book`, { state: { data: response.data } });
                             }

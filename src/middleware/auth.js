@@ -9,7 +9,7 @@ const auth = async (req, res, next) => {
         if (!token){
             throw new Error()
         }
-        // console.log(token, process.env.JWT_SECRET_KEY)
+        
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
         const user = await User.findOne({ _id : decoded._id, 'tokens.token' : token})
 
@@ -22,12 +22,12 @@ const auth = async (req, res, next) => {
 
     }catch(e){
         if (e.name === 'TokenExpiredError') {
-            return res.status(401).send({'error' : 'Token has expired. Please log in again.'} );
+            return res.status(401).send('Token has expired. Please log in again.' );
         }
         else if (e.name === 'JsonWebTokenError') {
-            return res.status(401).send({'error' : 'Invalid token. Please authenticate' });
+            return res.status(401).send('Invalid token. Please authenticate' );
         }
-        res.status(401).send({'error' : 'Please authenticate'})
+        res.status(401).send('Please authenticate')
     }
 }
 

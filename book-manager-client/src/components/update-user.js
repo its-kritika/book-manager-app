@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import axios from 'axios'
 import FormComponent from './form'
-import JsonFormat from './json-format-display';
+import Error from './error';
+import TableComponent from './table-component';
 
 function UpdateUser(){
 
@@ -81,8 +82,8 @@ function UpdateUser(){
                         />
                 </div>
             </div>
-            { jsonData && <JsonFormat jData = { jsonData } />}
-            { error && <JsonFormat jData = { error } errorClass='eText'/>}
+            { jsonData && <TableComponent data = { jsonData } heading={'Your details have been updated!'}/>}
+            { error && <Error e = { error } />}
         </div>
     )
 }

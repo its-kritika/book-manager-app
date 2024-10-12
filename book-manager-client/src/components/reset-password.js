@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import FormComponent from './form';
 import axios from 'axios';
-import JsonFormat from './json-format-display';
+import Error from './error';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
@@ -90,8 +90,8 @@ function ResetPassword({ type }) {
                     />
                 </div>
             </div>
-            {message && <p className='center'>{message}</p>}
-            {error && <JsonFormat jData={error} errorClass={`eText ${type === 'forgot' ? 'center' : ''}`} />}
+            {message && <Error e = { message } message = {'mail-msg'}/>}
+            { error && <Error e = { error } />}
         </div>
     );
 }

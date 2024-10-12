@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import axios from 'axios'
 import FormComponent from './form'
-import JsonFormat from './json-format-display'
+import Error from './error'
+import TableComponent from './table-component'
 
 function CreateBook(){
     const [formData, setFormData] = useState({
@@ -68,8 +69,8 @@ function CreateBook(){
                     />
                 </div>
             </div>
-            { jsonData && <JsonFormat jData = { jsonData } />}
-            { error && <JsonFormat jData = { error }  errorClass='eText' />}
+            { jsonData && <TableComponent data = { jsonData } heading = { 'Book has been added!' }/>}
+            { error && <Error e = { error } />}
         </div>
     )
 }

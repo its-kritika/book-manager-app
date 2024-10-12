@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Error from './error'
 import { useNavigate } from 'react-router-dom';
-import JsonFormat from './json-format-display'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
@@ -19,10 +19,19 @@ function Dashboard() {
     ]
     const [error, setError] = useState();
     const navigate = useNavigate();
-    const googleToken = new URLSearchParams(window.location.search).get('token') 
-    if (googleToken){
-        localStorage.setItem('authToken', googleToken);
-    }
+
+    useEffect(() => {
+        const googleToken = new URLSearchParams(window.location.search).get('token');
+        if (googleToken){
+            localStorage.setItem('authToken', googleToken);
+
+            // remove token from url to prevent manipulation of token by the user
+            const url = new URL(window.location);
+            url.searchParams.delete('token');
+            window.history.replaceState({}, '', url);
+        }
+    }, []);
+
     const token = localStorage.getItem('authToken');
 
     const config = {
@@ -50,7 +59,7 @@ function Dashboard() {
                     if (operation.name === 'Update User'){
                         navigate(`/dashboard/update-your-details`, { state: { data: response.data } });
                     } else{
-                        navigate(`/dashboard/json-data`, { state: { data: response.data, heading: operation.heading } });
+                        navigate(`/dashboard/data`, { state: { data: response.data, heading: operation.heading } });
                     }
                 }
 
@@ -85,7 +94,7 @@ function Dashboard() {
                         response = await axios.delete(bookUrl, config);
                         if (response.status === 200) {
                             setError(null); // Clear error on success
-                            navigate(`/dashboard/json-data`, { state: { data: response.data, heading: `Your Book with ID: ${bookId} was successfully deleted!` } });
+                            navigate(`/dashboard/data`, { state: { data: response.data, heading: `Your Book with ID: ${bookId} was successfully deleted!` } });
                         }
                     } else {
                 
@@ -93,7 +102,7 @@ function Dashboard() {
                         if (response.status === 200) {
                             setError(null); // Clear error on success
                             if (operation.name === 'Read Single Book') {
-                                navigate(`/dashboard/json-data`, { state: { data: response.data, heading: `Details of Book ID: ${bookId}` } });
+                                navigate(`/dashboard/data`, { state: { data: response.data, heading: `Details of Book ID: ${bookId}` } });
                             } else{
                                 navigate(`/dashboard/update-your-book`, { state: { data: response.data } });
                             }
@@ -131,7 +140,7 @@ function Dashboard() {
             <div className='back-button logout'>
                 <div onClick={ logOut } className='font-flex'><FontAwesomeIcon icon={faRightFromBracket} />Logout</div>
             </div>
-            <JsonFormat jData = { error }  errorClass='eText center height' />
+            <Error e = { error }/>
             <div className='grid'>
                 {operations.map((operation, index) => (
                     <div key={index} className='grid-item' onClick={() => handleClick(operation)}>

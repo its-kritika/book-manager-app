@@ -14,7 +14,15 @@ router.post('/users', async (req, res) => {
         res.status(201).send({user, token})
 
     }catch(e) {
-        res.status(400).send(e)
+        if (e.errors){
+            if ( e.errors.password ) {
+                return res.status(400).send(e.errors.password.message);
+            }
+            if (e.errors.email) {
+                return res.status(400).send(e.errors.email.message);
+            }
+        }
+        res.status(400).send('All fields are mandatory!')
     }
 })
 
@@ -32,7 +40,11 @@ router.post('/users/login', async (req, res) => {
 //forgot password
 router.post('/users/forgot-password', async (req, res) => {
     try{
-        const user = await User.findOne({ email : req.body.email})
+        const email = req.body.email
+        if (!email){
+            return res.status(404).send('Enter Valid ID')
+        }
+        const user = await User.findOne({ email})
         
         if (!user){
             return res.status(404).send('User Not Found!')
@@ -42,7 +54,7 @@ router.post('/users/forgot-password', async (req, res) => {
         
         res.send({ user, token})
     }catch(e){
-        res.status(500).send('Enter Valid ID')
+        res.status(500).send('Some error occurred!')
     }
 })
 
@@ -56,7 +68,7 @@ router.post('/users/logout', auth, async (req, res) => {
         res.send()
 
     }catch(e){
-        res.status(500).send()
+        res.status(500).send('Could not logout, Some error occurred!')
     }
 }) 
 
@@ -68,7 +80,7 @@ router.post('/users/logoutAll', auth, async(req, res) => {
         res.send(req.user)
 
     }catch(e){
-        res.status(500).send()
+        res.status(500).send('Could not logout, Some error occurred!')
     }
 })
 
@@ -78,7 +90,7 @@ router.get('/users/me', auth, async (req, res) => {
 
 router.patch('/user/me', auth, async (req, res) =>{
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'password']
+    const allowedUpdates = ['name', 'email', 'password']
     const isValidOperation = updates.every( (update) => allowedUpdates.includes(update))
 
     if (!isValidOperation){
@@ -92,7 +104,10 @@ router.patch('/user/me', auth, async (req, res) =>{
         res.send(req.user)
         
     }catch(e){
-        res.status(400).send(e)
+        if (e.errors && e.errors.password) {
+            return res.status(400).send(e.errors.password.message); 
+        }
+        res.status(400).send('Could not update user. Check if all fields are filled and retry.')
     }
 })
 

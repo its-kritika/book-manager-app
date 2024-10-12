@@ -12,7 +12,7 @@ router.post('/books', auth, async (req, res) => {
         await book.save()
         res.status(201).send(book)
     }catch(e){
-        res.status(400).send(e)
+        res.status(400).send('All fields are mandatory!')
     }
 })
 
@@ -51,7 +51,7 @@ router.patch('/book/:id', auth, async (req, res) =>{
         }
         res.send(book)
     }catch(e){
-        res.status(500).send(e)
+        res.status(500).send('Could not update book. Check if all fields are filled and retry.')
     }
 })
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import FormComponent from './form';
-import JsonFormat from './json-format-display';
+import Error from './error';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
@@ -117,7 +117,7 @@ function AuthForm() {
                 </div>
                 
             </div>
-            { error && <JsonFormat jData = { error }  errorClass={`eText ${isSignUp ? '' : 'center height'}`} />}
+            { error && <Error e = { error } />}
         </div>
     );
 }

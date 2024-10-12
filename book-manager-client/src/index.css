@@ -5,9 +5,249 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  background: linear-gradient(to right, #48412d 0%, #434232 40%, #434232 70%, #171612 100%);
+  box-sizing: border-box;
+  position: relative;
+  height: 100vh;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../public/images/book4.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: brightness(50%); 
+  z-index: -1; 
+}
+.container{
+  width: 50%;
+  margin: 0 auto;
+  padding: 2rem 5% 0;
+  text-align: center;
+}
+
+.sign-form {
+  width: 29.8rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.25);
+  margin: 2rem auto; 
+  padding-bottom: 2rem; 
+  border-radius: 12px; 
+  background: rgba(255, 255, 255, 0.612); 
+  backdrop-filter: blur(8px);
+  font-size: 17px;
+  color: #0f0f0f;
+}
+
+.sign-form form{
+  padding: 10%;
+  padding-bottom: .5rem;
+}
+.extras{
+  width: 70%;
+  margin: 0 auto;
+}
+.box{
+  display: flex;
+  align-items: center;
+}
+.back-button{
+  width: 100%;
+  border-bottom: 1px solid rgb(20, 20, 20);
+  background: transparent;
+  text-indent: 7px;
+  display: inline-flex; 
+  align-items: center;
+  text-align: left;
+  padding: 12px 0;
+  font-size: 22px;
+}
+.back-button span{
+  cursor: pointer;
+  margin-left: 10px;
+}
+.sign-form label{
+  flex-grow: 1;
+}
+.input-form{
+  height: 35px;
+  margin: 7px;
+  width: 72%;
+  background: transparent;
+  border: 1px solid black;
+  text-indent: 5px;
+  outline: none;
+  font-size: 15px;
+}
+.sign-container{
+  width: 45%;
+  margin: 0 auto;
+  margin-top: 8%;
+}
+.sign-button{
+  height: 42px;
+  width: 90%;
+  cursor: pointer;
+  background-color: rgb(142, 22, 22);
+  color: whitesmoke;
+  border: none;
+  font-size: 15px;
+  border-radius: 8px;
+}
+.sign-button:hover{
+  background-color: rgb(110, 16, 16);
+}
+.p-sign{
+  color: #0000EE;
+  cursor: pointer;
+  margin: 0;
+  font-size: 16px;
+}
+.grid{
+  display: flex;
+  flex-wrap: wrap;
+  width: 67rem;
+  margin: 3.8rem auto 7rem;
+  justify-content: space-between;
+  gap: 25px;
+  text-align: center;
+}
+.grid-item{
+  height: 100px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid rgb(203, 203, 203);
+  cursor: pointer;
+  justify-content: center;
+  font-size: 18px;
+  color: whitesmoke;
+  background: rgba(255, 255, 255, 0.173); 
+  backdrop-filter: blur(4px);
+}
+.grid-item:hover{
+  color: rgb(188, 188, 188);
+}
+.login-error{
+  margin: 0 30px 20px 30px;
+  padding-top: 30px;
+}
+.center{
+  text-align: center;
+}
+.password{
+  text-align: end;
+  margin-right: 10px;
+  font-size: 15px;
+  color: rgb(34, 34, 34);
+  margin-bottom: 1.3rem;
+}
+.password span:hover, .font-flex:hover, .p-sign:hover, .back-button span:hover{
+  text-decoration: underline;
+}
+.password span{
+  cursor: pointer;
+}
+.logout{
+  justify-content: end;
+  font-size: 17px;
+  height: 26px;
+}
+.font-flex{
+  display: flex;
+  color: rgb(236, 236, 236);
+  align-items: center;
+  margin-right: 2rem;
+  cursor: pointer;
+}
+.heading{
+  color: whitesmoke;
+  margin-top: 0;
+}
+.google-sign{
+  margin-bottom: 1.5rem;
+}
+.google-sign hr{
+  width: 80%;
+  height: .5px;
+  border: none;
+  background-color: black;
+  margin-bottom: 0;
+  margin-top: 1rem;
+}
+.google-button{
+  width: 50%;
+}
+.google-sign p{
+  margin-top: 0;
+  font-size: 14px;
+  color: rgb(34, 34, 34);
+}
+.no-data{
+  height: 1.2rem;
+  font-size: 21px;
+}
+.button-margin{
+  margin-bottom: 0;
+}
+.google-icon{
+  margin-right: 9px;
+}
+.errorPage h1{
+  margin-top: 0;
+}
+.errorPage{
+  color: whitesmoke;
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 4rem;
+}
+.table{
+  color: whitesmoke;
+  border-collapse: collapse;
+}
+.table th, td{
+  border: 1px solid whitesmoke;
+  padding: 1rem;
+  text-align: center;
+}
+.table thead{
+  background: rgba(255, 255, 255, 0.463); 
+  backdrop-filter: blur(8px);
+  color: #0f0f0f;
+}
+.error{
+  background: rgba(255, 255, 255, 0.463); 
+  backdrop-filter: blur(8px);
+  width: 16rem; 
+  color: maroon;
+  font-size: 17px;
+  margin: 1.2rem auto;
+  display: flex;
+  text-align: center;
+  justify-content: center; 
+  align-items: center;
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+.error p{
+  margin: 0;
+}
+.dashboard-error{
+  height: 3.2rem;
+  background: transparent;
+}
+.mail-msg{
+  color: #0f0f0f;
 }

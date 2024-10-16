@@ -7,6 +7,7 @@ const userRouter = require('./routers/user')
 const bookRouter = require('./routers/book')
 const passport = require('passport'); // Import the Google Passport configuration
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 require('dotenv').config()
 require('./middleware/google-auth')
 
@@ -25,7 +26,14 @@ app.use(express.json())
 app.use(session({
     secret: process.env.GOOGLE_AUTH_SECRET_KEY,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.DATABASE_CONNECTION_STRING, // MongoDB connection string
+        collectionName: 'sessions', // Optional: session collection name in MongoDB
+    }),
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week expiration
+    }
 }));
 
 app.use(passport.initialize());
@@ -34,6 +42,8 @@ app.use(passport.session());
 app.use(userRouter) 
 app.use(bookRouter)
 
+const PORT = process.env.PORT || 5000;
+
 app.listen(5000, () => {
-    console.log('Server has started functioning!')
+    console.log('Server has started functioning!' + PORT)
 })

@@ -128,6 +128,8 @@ function Dashboard() {
     };    
 
     const logOut = async () => {
+        setLoading(true)
+        
         try{
             const response = await axios.post('/users/logout', {}, config)
             if (response.status === 200) {
@@ -135,6 +137,8 @@ function Dashboard() {
             }
         } catch(e){
             setError('An error occurred')
+        } finally {
+            setLoading(false)
         }
     }
     

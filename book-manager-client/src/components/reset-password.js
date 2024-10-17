@@ -13,6 +13,7 @@ function ResetPassword({ type }) {
     const [token, setToken] = useState(null);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
     // detect url change for reset password token
@@ -34,6 +35,8 @@ function ResetPassword({ type }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
+
         try {
             if (type === 'forgot') {
                 const response = await axios.post('/users/forgot-password', { email });
@@ -60,6 +63,8 @@ function ResetPassword({ type }) {
             } else {
                 setError('An error occurred');
             }
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -90,8 +95,11 @@ function ResetPassword({ type }) {
                     />
                 </div>
             </div>
+            {
+                loading ? (<Error e={'Loading... Please wait!'} message={'mail-msg'} />) : 
+                       (error && <Error e={error} /> )
+            }
             {message && <Error e = { message } message = {'mail-msg'}/>}
-            { error && <Error e = { error } />}
         </div>
     );
 }

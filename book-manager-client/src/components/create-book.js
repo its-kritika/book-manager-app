@@ -12,6 +12,7 @@ function CreateBook(){
     })
     const [error, setError] = useState(null)
     const [jsonData, setJsonData] = useState()
+    const [loading, setLoading] = useState(false)
     
 
     const token = localStorage.getItem('authToken');
@@ -32,7 +33,7 @@ function CreateBook(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        setLoading(true)
         try{
             const response = await axios.post('/books', formData, config)
             if (response.status === 201){
@@ -45,6 +46,8 @@ function CreateBook(){
             } else {
                 setError('An error occurred');
             }
+        } finally{
+            setLoading(false)
         }
     }
 
@@ -69,8 +72,11 @@ function CreateBook(){
                     />
                 </div>
             </div>
+            {
+                loading ? (<Error e={'Creating... Please wait!'} message={'mail-msg'} />) : 
+                       (error && <Error e={error} /> )
+            }
             { jsonData && <TableComponent data = { jsonData } heading = { 'Book has been added!' }/>}
-            { error && <Error e = { error } />}
         </div>
     )
 }

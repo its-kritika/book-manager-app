@@ -11,6 +11,7 @@ function UpdateUser(){
     const { data : userData } = location.state || {};
     const [error, setError] = useState(null)
     const [jsonData, setJsonData] = useState()
+    const [loading, setLoading] = useState(false)
     
     const [formData, setFormData] = useState({
         name: '',
@@ -45,7 +46,8 @@ function UpdateUser(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        setLoading(true)
+
         try{
             const response = await axios.patch('/user/me', formData, config)
 
@@ -60,6 +62,8 @@ function UpdateUser(){
             } else {
                 setError('An error occurred');
             }
+        } finally {
+            setLoading(false)
         }
     }
     
@@ -82,8 +86,11 @@ function UpdateUser(){
                         />
                 </div>
             </div>
+            {
+                loading ? (<Error e={'Updating... Please wait!'} message={'mail-msg'} />) : 
+                       (error && <Error e={error} /> )
+            }
             { jsonData && <TableComponent data = { jsonData } heading={'Your details have been updated!'}/>}
-            { error && <Error e = { error } />}
         </div>
     )
 }

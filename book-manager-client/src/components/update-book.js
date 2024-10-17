@@ -11,6 +11,7 @@ function UpdateBook(){
     const { data : bookData } = location.state || {};
     const [error, setError] = useState(null)
     const [jsonData, setJsonData] = useState()
+    const [loading, setLoading] = useState(false)
     
     const [formData, setFormData] = useState({
         title: '',
@@ -47,7 +48,8 @@ function UpdateBook(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        setLoading(true)
+
         try{
             const response = await axios.patch(`/book/${bookData._id}`, formData, config)
 
@@ -62,6 +64,8 @@ function UpdateBook(){
             } else {
                 setError('An error occurred');
             }
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -86,8 +90,11 @@ function UpdateBook(){
                         />
                 </div>
             </div>
+            {
+                loading ? (<Error e={'Updating... Please wait!'} message={'mail-msg'} />) : 
+                       (error && <Error e={error} /> )
+            }
             { jsonData && <TableComponent data = { jsonData } heading={'Book has been updated!'}/>}
-            { error && <Error e = { error } />}
         </div>
     )
 }

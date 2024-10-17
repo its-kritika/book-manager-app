@@ -47,7 +47,7 @@ function UpdateUser(){
         e.preventDefault();
         
         try{
-            const response = await axios.patch(`http://localhost:5000/user/me`, formData, config)
+            const response = await axios.patch('/user/me', formData, config)
 
             if (response.status === 200){
                 setError(null)

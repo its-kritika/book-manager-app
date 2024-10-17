@@ -124,11 +124,11 @@ router.get('/auth/google',
     passport.authenticate('google', { scope: ['profile', 'email'] })); // we are requesting profile and email of user from google
   
 router.get('/auth/google/callback', 
-    passport.authenticate('google', { failureRedirect: 'http://localhost:3000/authentication-failed' }),
+    passport.authenticate('google', { failureRedirect: `${process.env.FRONTEND_URL}/authentication-failed` }),
     async (req, res) => {
         const token = await req.user.generateAuthToken();
 
-        res.redirect(`http://localhost:3000/dashboard?token=${token}`);
+        res.redirect(`${process.env.FRONTEND_URL}/dashboard?token=${token}`);
     });
 
 module.exports = router

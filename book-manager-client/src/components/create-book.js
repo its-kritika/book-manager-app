@@ -34,7 +34,7 @@ function CreateBook(){
         e.preventDefault();
         
         try{
-            const response = await axios.post(`http://localhost:5000/books`, formData, config)
+            const response = await axios.post('/books', formData, config)
             if (response.status === 201){
                 setError(null)
                 setJsonData(response.data)

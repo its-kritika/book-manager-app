@@ -1,13 +1,14 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/user'); 
-const { prototype } = require('jsonwebtoken/lib/JsonWebTokenError');
 require('dotenv').config();
+
+const url = process.env.BACKEND_URL || 'http://localhost:5000'
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID, 
     clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
-    callbackURL: 'http://localhost:5000/auth/google/callback', // Redirect URL after Google Auth
+    callbackURL: `${url}/auth/google/callback`, // Redirect URL after Google Auth
 },
 async (accessToken, refreshToken, profile, done) => {
     // Find or create user in your database

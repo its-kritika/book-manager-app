@@ -18,6 +18,7 @@ function Dashboard() {
         { name: 'Logout All Users', url: '/users/logoutAll'}
     ]
     const [error, setError] = useState();
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,12 +44,13 @@ function Dashboard() {
 
     const handleClick = async (operation) => {
         setError()
+        setLoading(true)
         // Reusable function to handle prompts for Book ID
         const getBookId = () => prompt("Enter the Book ID:");
     
         try {
             let response;
-            let url = `http://localhost:5000${operation.url}`;
+            let url = `${operation.url}`;
     
             if (operation.name === 'Read All Books' || operation.name === 'Read Profile' || operation.name === 'Update User') {
         
@@ -86,7 +88,7 @@ function Dashboard() {
 
             } else {
                 const bookId = getBookId(); // Get Book ID from user
-                const bookUrl = `http://localhost:5000/book/${bookId}`
+                const bookUrl = `/book/${bookId}`
                 if (bookId) {
                         
                     if (operation.name === 'Delete Book') {
@@ -116,17 +118,18 @@ function Dashboard() {
         } catch (e) {
             // Handle errors and display on the screen
             if (e.response) {
-                console.log(e.response)
                 setError(e.response.data.error || 'No data found!'); // Set error message from server response
             } else {
                 setError('An error occurred'); // Fallback message if there's no server response
             }
+        } finally {
+            setLoading(false)
         }
     };    
 
     const logOut = async () => {
         try{
-            const response = await axios.post('http://localhost:5000/users/logout', {}, config)
+            const response = await axios.post('/users/logout', {}, config)
             if (response.status === 200) {
                 navigate('/');
             }
@@ -140,7 +143,11 @@ function Dashboard() {
             <div className='back-button logout'>
                 <div onClick={ logOut } className='font-flex'><FontAwesomeIcon icon={faRightFromBracket} />Logout</div>
             </div>
-            <Error e = { error }/>
+            {
+                loading ? (<Error e={'Loading... Please wait!'} message={'mail-msg'} />) : 
+                       (<Error e={error} /> )
+            }
+
             <div className='grid'>
                 {operations.map((operation, index) => (
                     <div key={index} className='grid-item' onClick={() => handleClick(operation)}>

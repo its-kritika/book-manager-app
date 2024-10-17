@@ -36,7 +36,7 @@ function ResetPassword({ type }) {
         e.preventDefault();
         try {
             if (type === 'forgot') {
-                const response = await axios.post('http://localhost:5000/users/forgot-password', { email });
+                const response = await axios.post('/users/forgot-password', { email });
                 if (response.status === 200) {
                     setError(null);
                     setMessage('Mail sent successfully!');
@@ -47,7 +47,7 @@ function ResetPassword({ type }) {
                         'Authorization': `Bearer ${token}`,
                     },
                 };
-                const response = await axios.patch('http://localhost:5000/user/me', { password }, config);
+                const response = await axios.patch('/user/me', { password }, config);
                 if (response.status === 200) {
                     setError(null);
                     setMessage('Password changed successfully!! You can close this window now!');

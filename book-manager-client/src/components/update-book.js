@@ -49,7 +49,7 @@ function UpdateBook(){
         e.preventDefault();
         
         try{
-            const response = await axios.patch(`http://localhost:5000/book/${bookData._id}`, formData, config)
+            const response = await axios.patch(`/book/${bookData._id}`, formData, config)
 
             if (response.status === 200){
                 setError(null)

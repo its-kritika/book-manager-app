@@ -9,6 +9,11 @@ import ResetPassword from './components/reset-password';
 import PageNotFound from './components/page-not-found';
 import TableFormat from './components/table-format';
 
+import axios from 'axios';
+import config from './config';
+
+axios.defaults.baseURL = config.BACKEND_URL   // setting default base url, this will prevent writing url everytime in react code
+
 function App() {
   return (
     <div className="App">

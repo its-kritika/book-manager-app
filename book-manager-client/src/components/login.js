@@ -6,6 +6,7 @@ import Error from './error';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import config from '../config'
 
 function AuthForm() {
     const [isSignUp, setIsSignUp] = useState(true); // toggle between signup and signIn
@@ -15,6 +16,7 @@ function AuthForm() {
         password: ''
     })
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
  
     const navigate = useNavigate()
 
@@ -24,9 +26,10 @@ function AuthForm() {
         const { email, password } = formData
 
         const userData = isSignUp ? formData : { email, password };
+        setLoading(true);
 
         try {
-            const response = await axios.post(`http://localhost:5000/users${isSignUp ? '' : '/login'}`, userData);
+            const response = await axios.post(`/users${isSignUp ? '' : '/login'}`, userData);
 
             if (response.status === 201 || response.status === 200) {
                 // when user is logged in successfully, token should be saved for future authentication use
@@ -42,6 +45,8 @@ function AuthForm() {
             } else {
                 setError('An error occurred');
             }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -69,7 +74,7 @@ function AuthForm() {
     }
 
     const handleGoogleLogin = () => {
-        window.location.href = 'http://localhost:5000/auth/google';
+        window.location.href = `${config.BACKEND_URL}/auth/google`;
     }
 
     // if isSignUp true, name field will be displayed else no
@@ -117,6 +122,7 @@ function AuthForm() {
                 </div>
                 
             </div>
+            {loading && <Error e = { 'Loading... Please wait!' } message = {'mail-msg'}/>}
             { error && <Error e = { error } />}
         </div>
     );

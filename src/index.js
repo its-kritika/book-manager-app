@@ -31,7 +31,7 @@ app.use(session({
     saveUninitialized: false,
     store: MongoStore.create({
         mongoUrl: process.env.DATABASE_CONNECTION_STRING, // MongoDB connection string
-        collectionName: 'sessions', // Optional: session collection name in MongoDB
+        collectionName: 'sessions', // session collection name in MongoDB
     }),
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week expiration

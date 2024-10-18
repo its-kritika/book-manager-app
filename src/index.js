@@ -13,9 +13,18 @@ require('./middleware/google-auth')
 
 const publicDirectoryName = path.join(__dirname, 'book-manager-client/build')
 
-mongoose.connect(process.env.DATABASE_CONNECTION_STRING, {
-    tls: true, // Enable TLS
-})
+const connectToDatabase = async () => {
+    try { 
+        await mongoose.connect(process.env.DATABASE_CONNECTION_STRING, {
+            tls : true,
+        });
+        console.log('Database connected successfully!');
+    } catch (e) {
+        console.error('Failed to connect to the database!');
+    }
+}; 
+
+connectToDatabase();
 
 const app = express()
 

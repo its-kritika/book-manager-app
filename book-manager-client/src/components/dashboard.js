@@ -21,26 +21,29 @@ function Dashboard() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const googleToken = new URLSearchParams(window.location.search).get('token');
-        if (googleToken){
-            localStorage.setItem('authToken', googleToken);
+    const [token, setToken] = useState(localStorage.getItem('authToken') || '');
+    const getConfig = () => ({
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+    });
 
-            // remove token from url to prevent manipulation of token by the user
+    useEffect(() => {
+
+        const googleToken = new URLSearchParams(window.location.search).get('token');
+        
+        if (googleToken) {
+            setToken(googleToken); 
+            localStorage.setItem('authToken', googleToken);
+    
+            // this will remove token from URL to prevent manipulation
             const url = new URL(window.location);
             url.searchParams.delete('token');
             window.history.replaceState({}, '', url);
         }
     }, []);
-
-    const token = localStorage.getItem('authToken');
-
-    const config = {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        },
-    };
+    
 
     const handleClick = async (operation) => {
         setError()
@@ -54,7 +57,7 @@ function Dashboard() {
     
             if (operation.name === 'Read All Books' || operation.name === 'Read Profile' || operation.name === 'Update User') {
         
-                response = await axios.get(url, config);
+                response = await axios.get(url, getConfig());
 
                 if (response.status === 200) {
                     setError(null); // Clear error on success
@@ -75,8 +78,8 @@ function Dashboard() {
 
                 if (isConfirmed){
                     const response = operation.name === 'Delete User' 
-                            ? await axios.delete(url, config)
-                            : await axios.post(url, {}, config);
+                            ? await axios.delete(url, getConfig())
+                            : await axios.post(url, {}, getConfig());
 
                     if (response.status === 200) {
                         navigate('/');
@@ -92,15 +95,15 @@ function Dashboard() {
                 if (bookId) {
                         
                     if (operation.name === 'Delete Book') {
-                        
-                        response = await axios.delete(bookUrl, config);
+
+                        response = await axios.delete(bookUrl, getConfig());
                         if (response.status === 200) {
                             setError(null); // Clear error on success
                             navigate(`/dashboard/delete-data`, { state: { data: response.data, heading: `Your Book with ID: ${bookId} was successfully deleted!` } });
                         }
                     } else {
                 
-                        response = await axios.get(bookUrl, config);
+                        response = await axios.get(bookUrl, getConfig());
                         if (response.status === 200) {
                             setError(null); // Clear error on success
                             if (operation.name === 'Read Single Book') {
@@ -111,16 +114,16 @@ function Dashboard() {
                         }
                     }
                 } else {
-                    setError('No Book ID provided');
+                    setError('No Book ID provided'); 
                 }
     
             }
         } catch (e) {
             // Handle errors and display on the screen
             if (e.response) {
-                setError(e.response.data.error || 'No data found!'); // Set error message from server response
+                setError(e.response.data.error || e.response.data || 'No data found!'); // Set error message from server response
             } else {
-                setError('An error occurred'); // Fallback message if there's no server response
+                setError('No response from the server. Retry!'); // Fallback message if there's no server response
             }
         } finally {
             setLoading(false)
@@ -129,9 +132,9 @@ function Dashboard() {
 
     const logOut = async () => {
         setLoading(true)
-        
+
         try{
-            const response = await axios.post('/users/logout', {}, config)
+            const response = await axios.post('/users/logout', {}, getConfig())
             if (response.status === 200) {
                 navigate('/');
             }

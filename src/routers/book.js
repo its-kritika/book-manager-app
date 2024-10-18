@@ -21,7 +21,7 @@ router.get('/books', auth, async (req, res) =>{
         const books = await Book.find({ owner : req.user._id})
         res.send(books)
     }catch(e){
-        res.status(500).send(e)
+        res.status(500).send('Could not fetch books!')
     }
 })
 
@@ -63,7 +63,7 @@ router.delete('/book/:id', auth, async (req, res) =>{
         }
         res.send(book)
     }catch(e){
-        res.status(500).send(e)
+        res.status(500).send('Book not found!')
     }
 })
 

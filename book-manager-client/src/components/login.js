@@ -122,8 +122,10 @@ function AuthForm() {
                 </div>
                 
             </div>
-            {loading && <Error e = { 'Loading... Please wait!' } message = {'mail-msg'}/>}
-            { error && <Error e = { error } />}
+            {
+                loading ? (<Error e={'Loading... Please wait!'} message={'mail-msg'} />) : 
+                       ( error && <Error e={error} /> )
+            }
         </div>
     );
 }

@@ -22,6 +22,9 @@ router.post('/users', async (req, res) => {
                 return res.status(400).send(e.errors.email.message);
             }
         }
+        if (e.code === 11000){
+            return res.status(400).send('Email already registered! Please sign in or use a different email.')
+        }
         res.status(400).send('All fields are mandatory!')
     }
 })
@@ -116,7 +119,7 @@ router.delete('/user/me', auth, async (req, res) =>{
         await req.user.deleteOne()
         res.send(req.user)
     }catch(e){
-        res.status(500).send(e)
+        res.status(500).send('Could not delete user!')
     }
 })
 

@@ -14,7 +14,7 @@ function TableComponent({ data, heading }) {
     }
 
     return (
-        <div className='login-error'>
+        <div className='table-margin'>
             { heading && <h2 className='heading'>{heading}</h2>}
             <table className='table'>
                 <thead>

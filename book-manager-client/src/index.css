@@ -138,7 +138,7 @@ body::before {
 .grid-item:hover{
   color: rgb(188, 188, 188);
 }
-.login-error{
+.login-error, .table-margin{
   margin: 0 30px 20px 30px;
   padding-top: 30px;
 }

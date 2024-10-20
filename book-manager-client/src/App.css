@@ -32,13 +32,6 @@
   }
 }
 @media screen and (max-width: 475px) {
-  body{
-    min-height: 100vh;
-    min-width: 100vw;
-  }
-  /* .login-error{
-    margin: 0;
-  } */
   .sign-form {
     width: 20rem;
     margin: 0 auto;
@@ -63,9 +56,13 @@
     font-size: 16px;
     width: 43%;
   }
-  /* table {
-    width: 100%; 
+  .table {
+    margin-left: -23px;
+    width: 114%;
     table-layout: fixed; 
     word-wrap: break-word; 
-  } */
+  }
+  .table th, td {
+    padding: .8rem .2rem;
+  }
 }

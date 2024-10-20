@@ -32,9 +32,13 @@
   }
 }
 @media screen and (max-width: 475px) {
-  .login-error{
-    margin: 0;
+  body{
+    min-height: 100vh;
+    min-width: 100vw;
   }
+  /* .login-error{
+    margin: 0;
+  } */
   .sign-form {
     width: 20rem;
     margin: 0 auto;
@@ -59,4 +63,9 @@
     font-size: 16px;
     width: 43%;
   }
+  /* table {
+    width: 100%; 
+    table-layout: fixed; 
+    word-wrap: break-word; 
+  } */
 }
